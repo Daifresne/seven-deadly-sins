@@ -360,6 +360,12 @@
     color: var(--text-dim);
   }
 
+  /* 已认领但罪状未公开：有名字，没有入口 */
+  .sin-card.pending { cursor: default; }
+  .sin-card.pending .sin-name { color: var(--text-dim); font-size: 18px; letter-spacing: .2em; }
+  .sin-card.pending .sin-quote { font-style: normal; opacity: .7; }
+  .sin-card.pending:hover { transform: none; box-shadow: none; border-color: var(--line); }
+
   .sin-card.linked {
     cursor: pointer;
     display: block;
@@ -487,24 +493,24 @@
     <div class="sin-cta">→ 查看罪证</div>
   </a>
 
-  <!-- 第三席：待认领 -->
-  <div class="sin-card empty">
+  <!-- 第三席：张程（已认领，罪状待整理） -->
+  <div class="sin-card claimed pending">
     <span class="sin-number">III</span>
-    <span class="sin-icon">❓</span>
-    <div class="sin-name">？？？</div>
-    <div class="sin-latin">???</div>
-    <div class="sin-person">虚位以待</div>
-    <p class="sin-quote">"……"</p>
+    <span class="sin-icon">⏳</span>
+    <div class="sin-name">罪状待定</div>
+    <div class="sin-latin">Sub iudice</div>
+    <div class="sin-person">张程</div>
+    <p class="sin-quote">案卷整理中，尚未公开。</p>
   </div>
 
-  <!-- 第四席：待认领 -->
-  <div class="sin-card empty">
+  <!-- 第四席：李默冉（已认领，罪状待整理） -->
+  <div class="sin-card claimed pending">
     <span class="sin-number">IV</span>
-    <span class="sin-icon">❓</span>
-    <div class="sin-name">？？？</div>
-    <div class="sin-latin">???</div>
-    <div class="sin-person">虚位以待</div>
-    <p class="sin-quote">"……"</p>
+    <span class="sin-icon">⏳</span>
+    <div class="sin-name">罪状待定</div>
+    <div class="sin-latin">Sub iudice</div>
+    <div class="sin-person">李默冉</div>
+    <p class="sin-quote">案卷整理中，尚未公开。</p>
   </div>
 
   <!-- 第五席：待认领 -->
@@ -540,7 +546,7 @@
 
 <div class="footer">
   <p>七宗罪 · The Seven Deadly Sins</p>
-  <p style="margin-top: 8px; opacity: 0.6;">七席 · 已有 2 人认领 · 剩余 5 席</p>
+  <p style="margin-top: 8px; opacity: 0.6;">七席 · 已有 4 人认领 · 剩余 3 席</p>
 </div>
 
 </div><!-- /content -->
