@@ -75,10 +75,10 @@
     font-style: italic;
   }
 
-  /* ---------- 七宗罪网格 ---------- */
+  /* ---------- 罪行网格 ---------- */
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 24px;
     max-width: 1200px;
     margin: 0 auto;
@@ -201,6 +201,9 @@
   /* ---------- 链接卡片 ---------- */
   .sin-card.linked {
     cursor: pointer;
+    display: block;
+    text-decoration: none;
+    color: inherit;
   }
 
   .sin-card.linked .sin-cta {
@@ -214,6 +217,24 @@
 
   .sin-card.linked:hover .sin-cta {
     opacity: 1;
+  }
+
+  /* ---------- 多罪名标签 ---------- */
+  .sin-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 12px;
+  }
+
+  .sin-tag {
+    font-size: 11px;
+    padding: 3px 10px;
+    background: rgba(139, 0, 0, 0.2);
+    border: 1px solid rgba(196, 30, 30, 0.3);
+    border-radius: 4px;
+    color: var(--text);
   }
 
   /* ---------- 底部 ---------- */
@@ -254,75 +275,80 @@
 </div>
 
 <div class="grid">
-  <!-- 第一宗：傲慢（空位） -->
+  <!-- 第一席：待认领 -->
   <div class="sin-card empty">
     <span class="sin-number">I</span>
-    <span class="sin-icon">👑</span>
-    <div class="sin-name">傲慢</div>
-    <div class="sin-latin">Superbia</div>
+    <span class="sin-icon">❓</span>
+    <div class="sin-name">？？？</div>
+    <div class="sin-latin">???</div>
     <div class="sin-person">虚位以待</div>
-    <p class="sin-quote">"我是独一无二的，你们都应仰望我。"</p>
+    <p class="sin-quote">"……"</p>
   </div>
 
-  <!-- 第二宗：傲慢/懒惰 → 刁立强（已认领，链接到1w3） -->
+  <!-- 第二席：背叛/欺骗/渎职 → 刁立强（已认领，链接到1w3） -->
   <a href="https://daifresne.github.io/a-story-about-ti-1w3/" target="_blank" rel="noopener" class="sin-card claimed linked">
     <span class="sin-number">II</span>
     <span class="sin-icon">🎭</span>
-    <div class="sin-name">傲慢</div>
-    <div class="sin-latin">Superbia</div>
+    <div class="sin-name">背叛 · 欺骗 · 渎职</div>
+    <div class="sin-latin">Proditio · Deceptio · Negligentia</div>
     <div class="sin-person">刁立强</div>
     <p class="sin-quote">"我给你们找人，是看得起你们。来不来是他的事，与我何干？"</p>
+    <div class="sin-tags">
+      <span class="sin-tag">背叛</span>
+      <span class="sin-tag">欺骗</span>
+      <span class="sin-tag">渎职</span>
+    </div>
     <div class="sin-cta">→ 查看罪证</div>
   </a>
 
-  <!-- 第三宗：嫉妒（空位） -->
+  <!-- 第三席：待认领 -->
   <div class="sin-card empty">
     <span class="sin-number">III</span>
-    <span class="sin-icon">💚</span>
-    <div class="sin-name">嫉妒</div>
-    <div class="sin-latin">Invidia</div>
+    <span class="sin-icon">❓</span>
+    <div class="sin-name">？？？</div>
+    <div class="sin-latin">???</div>
     <div class="sin-person">虚位以待</div>
-    <p class="sin-quote">"凭什么他有，我没有？"</p>
+    <p class="sin-quote">"……"</p>
   </div>
 
-  <!-- 第四宗：暴怒（空位） -->
+  <!-- 第四席：待认领 -->
   <div class="sin-card empty">
     <span class="sin-number">IV</span>
-    <span class="sin-icon">🔥</span>
-    <div class="sin-name">暴怒</div>
-    <div class="sin-latin">Ira</div>
+    <span class="sin-icon">❓</span>
+    <div class="sin-name">？？？</div>
+    <div class="sin-latin">???</div>
     <div class="sin-person">虚位以待</div>
-    <p class="sin-quote">"我要毁掉一切，包括我自己。"</p>
+    <p class="sin-quote">"……"</p>
   </div>
 
-  <!-- 第五宗：懒惰（空位） -->
+  <!-- 第五席：待认领 -->
   <div class="sin-card empty">
     <span class="sin-number">V</span>
-    <span class="sin-icon">🛋️</span>
-    <div class="sin-name">懒惰</div>
-    <div class="sin-latin">Acedia</div>
+    <span class="sin-icon">❓</span>
+    <div class="sin-name">？？？</div>
+    <div class="sin-latin">???</div>
     <div class="sin-person">虚位以待</div>
-    <p class="sin-quote">"明天再做，反正也不急。"</p>
+    <p class="sin-quote">"……"</p>
   </div>
 
-  <!-- 第六宗：贪婪（空位） -->
+  <!-- 第六席：待认领 -->
   <div class="sin-card empty">
     <span class="sin-number">VI</span>
-    <span class="sin-icon">💰</span>
-    <div class="sin-name">贪婪</div>
-    <div class="sin-latin">Avaritia</div>
+    <span class="sin-icon">❓</span>
+    <div class="sin-name">？？？</div>
+    <div class="sin-latin">???</div>
     <div class="sin-person">虚位以待</div>
-    <p class="sin-quote">"还不够，永远都不够。"</p>
+    <p class="sin-quote">"……"</p>
   </div>
 
-  <!-- 第七宗：暴食（空位） -->
+  <!-- 第七席：待认领 -->
   <div class="sin-card empty">
     <span class="sin-number">VII</span>
-    <span class="sin-icon">🍖</span>
-    <div class="sin-name">暴食</div>
-    <div class="sin-latin">Gula</div>
+    <span class="sin-icon">❓</span>
+    <div class="sin-name">？？？</div>
+    <div class="sin-latin">???</div>
     <div class="sin-person">虚位以待</div>
-    <p class="sin-quote">"吃啊，继续吃，直到撑死为止。"</p>
+    <p class="sin-quote">"……"</p>
   </div>
 </div>
 
