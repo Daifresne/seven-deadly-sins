@@ -566,6 +566,8 @@
       gateMsg.textContent = "✅ 口令正确，门开了";
       gateMsg.classList.add("ok");
       gateInput.blur();
+      // 同一域名共享 sessionStorage：种个令牌，1w3 那边才认
+      try { sessionStorage.setItem("sds_unlock", String(Date.now())); } catch (e) {}
       setTimeout(() => {
         gate.classList.add("hidden");
         content.classList.add("revealed");
