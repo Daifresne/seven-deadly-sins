@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第一席 · 杨状 · 七宗罪</title>
+<script>
+// 入口校验：这一页只认从「七宗罪」进来的访问（同域名共享 sds_unlock 令牌）
+(function () {
+  var KEY = "sds_unlock";
+  var TTL = 2 * 60 * 60 * 1000;
+  var ok = false;
+  try {
+    var t = +(sessionStorage.getItem(KEY) || 0);
+    if (t && Date.now() - t < TTL) ok = true;
+  } catch (e) {}
+  if (!ok && (document.referrer || "").indexOf("seven-deadly-sins") !== -1) {
+    ok = true;
+    try { sessionStorage.setItem(KEY, String(Date.now())); } catch (e) {}
+  }
+  if (ok) document.documentElement.classList.add("access-ok");
+})();
+</script>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --card: #1a1a26;
+    --card-hover: #22222f;
+    --line: #2a2a3a;
+    --text: #e8e6f0;
+    --text-dim: #8a86a0;
+    --blood: #8b0000;
+    --blood-bright: #c41e1e;
+    --gold: #c9a227;
+    --good: #57d9a3;
+    --bad: #ff6b6b;
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background:
+      radial-gradient(1000px 600px at 80% -10%, rgba(139, 0, 0, 0.09), transparent 60%),
+      radial-gradient(800px 500px at 10% 90%, rgba(201, 162, 39, 0.05), transparent 60%),
+      var(--bg);
+    color: var(--text);
+    font-family: "Songti SC", "STSong", "SimSun", "Noto Serif SC", serif;
+    line-height: 1.85;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  ::selection { background: rgba(196, 30, 30, 0.25); }
+
+  /* ---------- 非法访问 ---------- */
+  #access-denied { display: none; }
+  html:not(.access-ok) body > *:not(#access-denied) { visibility: hidden !important; }
+  html:not(.access-ok) #access-denied {
+    display: flex; position: fixed; inset: 0; z-index: 9999;
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px; padding: 24px; text-align: center; background: var(--bg);
+  }
+  #access-denied .ad-icon { font-size: 60px; line-height: 1; }
+  #access-denied h1 { font-size: clamp(24px, 6vw, 34px); color: var(--bad); letter-spacing: .2em; }
+  #access-denied p { color: var(--text-dim); font-size: 14px; }
+  #access-denied a { color: var(--gold); font-weight: 700; }
+
+  /* ---------- 布局 ---------- */
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 22px; }
+
+  header { padding: 56px 0 28px; text-align: center; }
+
+  .seat-tag {
+    display: inline-block; font-size: 12px; letter-spacing: .3em;
+    color: var(--blood-bright); border: 1px solid rgba(196,30,30,.35);
+    border-radius: 999px; padding: 4px 16px; margin-bottom: 18px;
+  }
+
+  h1 { font-size: clamp(30px, 6vw, 44px); letter-spacing: .18em; margin-bottom: 10px; }
+  h1 .name { color: var(--blood-bright); text-shadow: 0 0 30px rgba(139,0,0,.4); }
+
+  .charges { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 16px; }
+  .charge {
+    font-size: 12px; padding: 4px 12px; border-radius: 4px;
+    background: rgba(139,0,0,.18); border: 1px solid rgba(196,30,30,.3); color: var(--text);
+  }
+
+  .back { display: inline-block; margin-top: 20px; font-size: 13px; color: var(--text-dim); text-decoration: none; }
+  .back:hover { color: var(--gold); }
+
+  /* ---------- 进度 ---------- */
+  .progress {
+    display: flex; align-items: center; gap: 14px;
+    margin: 30px 0 26px; padding: 14px 18px;
+    background: rgba(18,18,26,.8); border: 1px solid var(--line); border-radius: var(--radius);
+    font-size: 13px; color: var(--text-dim);
+  }
+  .bar { flex: 1; height: 4px; background: var(--line); border-radius: 999px; overflow: hidden; }
+  .bar > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--blood), var(--blood-bright)); transition: width .5s ease; }
+  .progress b { color: var(--text); font-weight: 700; }
+
+  /* ---------- 章节 ---------- */
+  .chapter {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 30px 28px; margin-bottom: 24px;
+    animation: rise .5s ease both;
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+  .ch-label { font-size: 12px; letter-spacing: .25em; color: var(--blood-bright); margin-bottom: 8px; }
+  .ch-title { font-size: 22px; font-weight: 700; letter-spacing: .06em; margin-bottom: 4px; }
+  .ch-sub { font-size: 13px; color: var(--text-dim); margin-bottom: 22px; }
+
+  .narr p { margin-bottom: 14px; font-size: 15.5px; }
+  .narr p:last-child { margin-bottom: 0; }
+  .narr .say { color: var(--gold); }
+
+  /* ---------- 证据 ---------- */
+  .clue-hint {
+    margin: 24px 0 12px; font-size: 12px; letter-spacing: .2em; color: var(--text-dim);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .clue-hint::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+  .clues { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+
+  .clue {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-family: inherit; font-size: 13.5px; color: var(--text);
+    background: var(--card-hover); border: 1px dashed var(--line);
+    border-radius: 8px; padding: 9px 15px; cursor: pointer;
+    transition: all .25s ease;
+  }
+  .clue:hover { border-color: var(--blood); transform: translateY(-2px); }
+  .clue.found {
+    cursor: default; border-style: solid;
+    border-color: rgba(201,162,39,.45); background: rgba(201,162,39,.08);
+    color: var(--text-dim);
+  }
+  .clue.found:hover { transform: none; }
+  .clue .tick { color: var(--good); }
+
+  .reveal { margin-top: 18px; display: flex; flex-direction: column; gap: 12px; }
+
+  .evidence {
+    border-left: 2px solid var(--gold); background: rgba(201,162,39,.05);
+    padding: 14px 16px; border-radius: 0 8px 8px 0;
+    animation: reveal .45s ease both;
+  }
+  @keyframes reveal { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+  .evidence .ev-label { font-size: 12px; color: var(--gold); letter-spacing: .1em; margin-bottom: 6px; }
+  .evidence p { font-size: 14.5px; color: var(--text-dim); }
+
+  /* ---------- 继续 ---------- */
+  .actions { margin-top: 26px; text-align: right; }
+
+  .btn {
+    font-family: inherit; font-size: 15px; font-weight: 700; letter-spacing: .12em;
+    color: var(--text); background: linear-gradient(135deg, var(--blood), #5c0000);
+    border: none; border-radius: 8px; padding: 13px 34px; cursor: pointer;
+    transition: all .2s ease;
+  }
+  .btn:hover { filter: brightness(1.15); transform: translateY(-1px); }
+  .btn:active { transform: scale(.98); }
+  .btn:disabled { opacity: .3; cursor: not-allowed; transform: none; filter: none; }
+
+  .actions .hint { font-size: 12px; color: var(--text-dim); margin-right: 14px; }
+
+  /* ---------- 终章 ---------- */
+  .finale { text-align: center; }
+  .finale .seal {
+    font-size: 52px; margin-bottom: 14px;
+  }
+  .finale h2 { font-size: 28px; letter-spacing: .2em; color: var(--blood-bright); margin-bottom: 10px; }
+  .finale .summary { color: var(--text-dim); font-size: 14px; margin-bottom: 26px; }
+
+  .verdict { text-align: left; display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+  .verdict-item {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: rgba(139,0,0,.08); border: 1px solid rgba(196,30,30,.2);
+    border-radius: 8px; padding: 16px 18px;
+  }
+  .verdict-item .v-idx {
+    flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
+    background: var(--blood); color: var(--text);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+  }
+  .verdict-item .v-body strong { display: block; font-size: 15px; margin-bottom: 3px; }
+  .verdict-item .v-body span { font-size: 13.5px; color: var(--text-dim); }
+
+  .closing { font-size: 14px; color: var(--text-dim); font-style: italic; margin-bottom: 26px; }
+
+  @media (max-width: 640px) {
+    .chapter { padding: 22px 18px; }
+    .progress { font-size: 12px; gap: 10px; }
+    .actions { text-align: center; }
+    .actions .hint { display: block; margin: 0 0 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="access-denied">
+  <div class="ad-icon">⛔</div>
+  <h1>非法访问</h1>
+  <p>这一页不接受直接访问。</p>
+  <p>请从 <a href="https://daifresne.github.io/seven-deadly-sins/">七宗罪</a> 入口进入。</p>
+</div>
+
+<div id="app">
+  <div class="wrap">
+    <header>
+      <div class="seat-tag">第一席 · SEAT I</div>
+      <h1><span class="name">杨状</span></h1>
+      <div class="charges">
+        <span class="charge">欺骗</span>
+        <span class="charge">滥用职权</span>
+        <span class="charge">剽窃</span>
+        <span class="charge">诽谤</span>
+      </div>
+      <a class="back" href="https://daifresne.github.io/seven-deadly-sins/">← 返回七宗罪</a>
+    </header>
+
+    <div class="progress">
+      <span>章节 <b id="chNow">1</b>/5</span>
+      <div class="bar"><i id="barFill"></i></div>
+      <span>证据 <b id="evNow">0</b>/<span id="evTotal">0</span></span>
+    </div>
+
+    <main id="stage"></main>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  const CHAPTERS = [
+    {
+      label: "第一章",
+      title: "初入大学",
+      sub: "两个部门，两套说辞",
+      narr: [
+        "大一刚入学，我什么都想试试。科创社和 UIT 都在招人，我以为两个都是搞竞赛的——不分贵贱，还能互帮互助。",
+        "入科创社之前，有学长提醒我：杨状人品很差，不建议我去。可科创社的人反过来告诉我，UIT 里的人都差劲，说了不少脏话。杨状还亲口跟我讲：<span class=\"say\">「你跟我打比赛，我帮你申请专利。」</span>",
+        "两种说法完全对不上。我干脆两边都报了名，眼见为实。"
+      ],
+      clues: [
+        {
+          icon: "⚠️",
+          label: "学长的警告",
+          text: "入社前就有学长说杨状人品很差，不建议我去科创社。我没当回事。"
+        },
+        {
+          icon: "🎨",
+          label: "国潮艺术设计大赛",
+          text: "在科创社熬了几个星期，终于等来「能参赛」。比赛全称是 xx 国潮艺术设计大赛——我读的是计算机工程学院，科创社，为什么在打艺术与传媒学院的比赛？我问怎么做，学长只说：不用管，杨状会分配项目。"
+        },
+        {
+          icon: "📁",
+          label: "美术学院",
+          text: "后来才知道，杨状毕业于美术学院。他手里有很多剽窃来的、或者旧的艺术设计项目。所谓「打比赛」，就是找几个和本专业完全无关的艺术类水赛，看他心情分点项目，稍微改个 PPT 就拿去参赛。奖，基本都是高额买回来的。"
+        },
+        {
+          icon: "📊",
+          label: "科研部的日常",
+          text: "加入后我被分到科研部，当时还挺高兴，以为能打很多比赛、学很多技术。结果从第一天起，没让我打过比赛、没教过技术，一天到晚做 Word、Excel，从竞赛平台整理比赛信息，拍公众号推送照片。"
+        },
+        {
+          icon: "🚪",
+          label: "退出与约谈",
+          text: "我跟科创社的学长申请退出。他阻挠，说 UIT 是帮不了我学习的社团，让我自己考虑。可两边我都待了这么久，谁真谁假我能不知道吗。一直坚持，路一诺学长终于说了一句：「好吧。」第二天一早，学长却说杨状找我。中午我去了办公室，他上来就是一阵数落：<span class=\"say\">「我让你加入就加，干点活多好啊，锻炼你的竞赛能力。做 PPT、Excel、Word 也都是锻炼你的办公软件能力，方便以后参赛。」</span>我还没张口，又被打断：<span class=\"say\">「你将来想做建模，就把学校的楼做一下，然后做成文创可以售卖。」</span>我几乎一句话没说上。回去想了想，还是决定退出。"
+        }
+      ],
+      outro: "另一边，UIT 的学长们很友好，懂各种技术方向，关心我，没让我干过任何无意义的杂活——只是带我学技能、帮我解惑、带我打比赛。"
+    },
+
+    {
+      label: "第二章",
+      title: "查寝",
+      sub: "导员、热风枪，和一条我不知道的规定",
+      narr: [
+        "杨状不巧也是我的导员。",
+        "我从小玩硬件，来学校带了自己的设备：电烙铁、热风枪。宿舍不让用锅、吹风机，我知道，所以这些都没带。"
+      ],
+      clues: [
+        {
+          icon: "🧰",
+          label: "查寝没收",
+          text: "一次查寝，他没收了我不少工具——热风枪、电烙铁。"
+        },
+        {
+          icon: "📖",
+          label: "学校的规定",
+          text: "事后学长告诉我：学校完全允许宿舍使用竞赛设备，包括电烙铁、热风枪。"
+        },
+        {
+          icon: "⚖️",
+          label: "没处说理",
+          text: "知道了也没用。东西已经在他手里了。我只能觉得冤。"
+        }
+      ],
+      outro: "他没收的时候，没有问过这些是用来做什么的。"
+    },
+
+    {
+      label: "第三章",
+      title: "记者团",
+      sub: "他要的不是我，是我的能力",
+      narr: [
+        "退出科创社之后，我还在学生会记者团。",
+        "一次出任务拍党员照，正好遇上给杨状拍照。"
+      ],
+      clues: [
+        {
+          icon: "📷",
+          label: "拍完照之后",
+          text: "我拍完，他把我叫出去，让我过几天再给科创社的活动拍照。"
+        },
+        {
+          icon: "🕰️",
+          label: "他以为我还在",
+          text: "他还以为我在科创社待着。可我已经快一年没去了。"
+        },
+        {
+          icon: "📅",
+          label: "那天的课",
+          text: "我想明白了：他要的不是我这个人，是我的能力，是他的棋子。用得上的时候就叫来做事，完全不关心我怎么样。知道我不在科创社了，他还是让我去。那天我有课，明确拒绝了，不想耽误课程，就没去。"
+        }
+      ],
+      outro: "事后，他到处说我的坏话，诋毁我。"
+    },
+
+    {
+      label: "第四章",
+      title: "留校",
+      sub: "一个我至今想不通的道歉",
+      narr: [
+        "2026 年暑假，我想打电赛。电赛在假期，需要申请留校。",
+        "于是我去找杨状。"
+      ],
+      clues: [
+        {
+          icon: "⏳",
+          label: "你申请太晚了",
+          text: "我向他申请假期留校。他一味以「你申请太晚了」拒绝。"
+        },
+        {
+          icon: "📞",
+          label: "指导老师与分院书记",
+          text: "我的电赛指导老师知道后，亲自联系他，他还是拒绝。指导老师没办法，联系了分院书记。书记和他聊过，他才稍微松口——但要我先道歉。"
+        },
+        {
+          icon: "❓",
+          label: "我做错哪了",
+          text: "我怎么都想不通我做错了什么，要向他道歉。可竞赛在即，我只能道歉。他才不情不愿地抱怨了几句，然后不紧不慢地花了好几天，把事办完。"
+        }
+      ],
+      outro: "申请是晚了，但「晚」和「不办」之间，本来还有很多余地。"
+    },
+
+    {
+      label: "第五章",
+      title: "UIT 换届",
+      sub: "他被说成一个十恶不赦的部门",
+      narr: [
+        "在 UIT 学长们的指导和代理下，我参加了很多含金量不低的比赛，也拿了奖。",
+        "大二，UIT 换届，我意外当上了副部长。该迎新了。"
+      ],
+      clues: [
+        {
+          icon: "📝",
+          label: "纳新",
+          text: "笔试、面试，忙完一轮，招进来很多新生。"
+        },
+        {
+          icon: "🌙",
+          label: "晚自习假条",
+          text: "新生进 UIT 后，需要向学校请假、批晚自习假条来培训技术。学长们去请了很多次，多次被拒。有一次我跟学长们一起给新生请假，学长被骂哭了——很难想象被说了什么。"
+        },
+        {
+          icon: "🗣️",
+          label: "不存在的话",
+          text: "后来我了解到，杨状在背后跟院方说了很多 UIT 的、根本不存在的话。UIT 本身是个很好的竞赛部门，却被他、被院长和书记说成一个十恶不赦的部门。"
+        }
+      ],
+      outro: "UIT 因此面临解散。"
+    }
+  ];
+
+  const TOTAL_CLUES = CHAPTERS.reduce((n, c) => n + c.clues.length, 0);
+
+  const stage = document.getElementById("stage");
+  const chNow = document.getElementById("chNow");
+  const evNow = document.getElementById("evNow");
+  const evTotal = document.getElementById("evTotal");
+  const barFill = document.getElementById("barFill");
+
+  let chapterIdx = 0;
+  let found = new Set();     // "章节:证据"
+  let foundCount = 0;
+
+  evTotal.textContent = TOTAL_CLUES;
+
+  function updateProgress() {
+    chNow.textContent = Math.min(chapterIdx + 1, CHAPTERS.length);
+    evNow.textContent = foundCount;
+    barFill.style.width = (foundCount / TOTAL_CLUES * 100) + "%";
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  // 章节正文里用了 <span class="say">，所以正文按 HTML 插入；
+  // 证据文字是纯文本，走 escapeHtml
+  function renderChapter() {
+    const ch = CHAPTERS[chapterIdx];
+    const key = (i) => chapterIdx + ":" + i;
+    const allFound = ch.clues.every((_, i) => found.has(key(i)));
+
+    stage.innerHTML = `
+      <article class="chapter">
+        <div class="ch-label">${ch.label} · CHAPTER ${chapterIdx + 1}</div>
+        <h2 class="ch-title">${ch.title}</h2>
+        <p class="ch-sub">${ch.sub}</p>
+        <div class="narr">${ch.narr.map((p) => `<p>${p}</p>`).join("")}</div>
+
+        <div class="clue-hint">可调查线索 · ${ch.clues.filter((_, i) => found.has(key(i))).length}/${ch.clues.length}</div>
+        <div class="clues">
+          ${ch.clues.map((c, i) => `
+            <button class="clue${found.has(key(i)) ? " found" : ""}" data-ci="${i}" ${found.has(key(i)) ? "disabled" : ""}>
+              <span>${found.has(key(i)) ? '<span class="tick">✓</span>' : c.icon}</span>
+              <span>${escapeHtml(c.label)}</span>
+            </button>`).join("")}
+        </div>
+
+        <div class="reveal" id="reveal">
+          ${ch.clues.map((c, i) => found.has(key(i)) ? `
+            <div class="evidence">
+              <div class="ev-label">${c.icon} ${escapeHtml(c.label)}</div>
+              <p>${c.text}</p>
+            </div>` : "").join("")}
+        </div>
+
+        <div class="actions">
+          ${allFound
+            ? `<button class="btn" id="nextBtn">${chapterIdx === CHAPTERS.length - 1 ? "宣读判决" : "继续"}</button>`
+            : `<span class="hint">把这一章的证据找齐才能继续</span><button class="btn" disabled>继续</button>`}
+        </div>
+      </article>`;
+
+    stage.querySelectorAll(".clue:not(.found)").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const i = +btn.dataset.ci;
+        found.add(key(i));
+        foundCount++;
+        updateProgress();
+        renderChapter();
+      });
+    });
+
+    const next = document.getElementById("nextBtn");
+    if (next) {
+      next.addEventListener("click", () => {
+        if (chapterIdx === CHAPTERS.length - 1) { renderFinale(); return; }
+        chapterIdx++;
+        updateProgress();
+        renderChapter();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
+
+    updateProgress();
+  }
+
+  const VERDICT = [
+    { title: "欺骗", text: "以「帮你申请专利」「带你打比赛」为名招人，实际安排的是整理表格、拍推送照片；所谓参赛，是拿他手里的旧项目改个 PPT。" },
+    { title: "滥用职权", text: "以导员身份没收学校允许的竞赛设备；以「申请太晚」为由卡住暑期留校，直到指导老师、分院书记介入，仍要求一个没有理由的道歉。" },
+    { title: "剽窃", text: "手里存着剽窃或陈旧的艺术设计项目，分给学生参加与本专业无关的艺术类水赛；奖项多为高额购买。" },
+    { title: "诽谤", text: "在本人明确拒绝、且有课的情况下仍强行安排；事后四处诋毁。更以不实之词向院方构陷 UIT，致其面临解散。" }
+  ];
+
+  function renderFinale() {
+    barFill.style.width = "100%";
+    stage.innerHTML = `
+      <article class="chapter finale">
+        <div class="seal">⚖️</div>
+        <h2>判决</h2>
+        <p class="summary">五章调查完毕 · 共 ${TOTAL_CLUES} 条证据</p>
+
+        <div class="verdict">
+          ${VERDICT.map((v, i) => `
+            <div class="verdict-item">
+              <div class="v-idx">${i + 1}</div>
+              <div class="v-body">
+                <strong>${v.title}</strong>
+                <span>${v.text}</span>
+              </div>
+            </div>`).join("")}
+        </div>
+
+        <p class="closing">「我不是没给过机会。我是给了太久。」</p>
+
+        <button class="btn" id="againBtn">重新勘察</button>
+      </article>`;
+
+    document.getElementById("againBtn").addEventListener("click", () => {
+      chapterIdx = 0;
+      found = new Set();
+      foundCount = 0;
+      renderChapter();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  renderChapter();
+})();
+</script>
+
+</body>
+</html>
