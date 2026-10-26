@@ -46,7 +46,7 @@
       var(--bg);
     color: var(--text);
     font-family: "Songti SC", "STSong", "SimSun", "Noto Serif SC", serif;
-    line-height: 1.85;
+    line-height: 1.95;
     min-height: 100vh;
     padding-bottom: 60px;
   }
@@ -69,61 +69,132 @@
   /* ---------- 布局 ---------- */
   .wrap { max-width: 860px; margin: 0 auto; padding: 0 22px; }
 
-  header { padding: 56px 0 28px; text-align: center; }
+  header { padding: 48px 0 24px; text-align: center; }
 
   .seat-tag {
     display: inline-block; font-size: 12px; letter-spacing: .3em;
     color: var(--blood-bright); border: 1px solid rgba(196,30,30,.35);
-    border-radius: 999px; padding: 4px 16px; margin-bottom: 18px;
+    border-radius: 999px; padding: 4px 16px; margin-bottom: 16px;
   }
 
   h1 { font-size: clamp(30px, 6vw, 44px); letter-spacing: .18em; margin-bottom: 10px; }
   h1 .name { color: var(--blood-bright); text-shadow: 0 0 30px rgba(139,0,0,.4); }
 
-  .charges { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 16px; }
+  .charges { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 14px; }
   .charge {
     font-size: 12px; padding: 4px 12px; border-radius: 4px;
     background: rgba(139,0,0,.18); border: 1px solid rgba(196,30,30,.3); color: var(--text);
   }
 
-  .back { display: inline-block; margin-top: 20px; font-size: 13px; color: var(--text-dim); text-decoration: none; }
+  .back { display: inline-block; margin-top: 18px; font-size: 13px; color: var(--text-dim); text-decoration: none; }
   .back:hover { color: var(--gold); }
 
-  /* ---------- 进度 ---------- */
-  .progress {
-    display: flex; align-items: center; gap: 14px;
-    margin: 30px 0 26px; padding: 14px 18px;
-    background: rgba(18,18,26,.8); border: 1px solid var(--line); border-radius: var(--radius);
+  /* ---------- 顶部状态条 ---------- */
+  .hud {
+    display: flex; align-items: center; gap: 16px;
+    margin: 24px 0 22px; padding: 13px 18px;
+    background: rgba(18,18,26,.85); border: 1px solid var(--line); border-radius: var(--radius);
     font-size: 13px; color: var(--text-dim);
+    position: sticky; top: 10px; z-index: 20; backdrop-filter: blur(6px);
   }
-  .bar { flex: 1; height: 4px; background: var(--line); border-radius: 999px; overflow: hidden; }
+  .hud .item { white-space: nowrap; }
+  /* [hidden] 是 UA 样式，作者写的 display:flex 会盖掉它，这里补回来 */
+  .hud[hidden] { display: none; }
+  .hud b { color: var(--text); }
+  .hud .clarity b { color: var(--gold); }
+  .bar { flex: 1; height: 4px; background: var(--line); border-radius: 999px; overflow: hidden; min-width: 40px; }
   .bar > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--blood), var(--blood-bright)); transition: width .5s ease; }
-  .progress b { color: var(--text); font-weight: 700; }
+
+  /* ---------- 开场 ---------- */
+  .intro { text-align: center; padding: 40px 0 20px; }
+  .intro .glyph { font-size: 56px; margin-bottom: 18px; }
+  .intro h2 { font-size: clamp(24px, 5vw, 32px); letter-spacing: .1em; margin-bottom: 14px; }
+  .intro .lede { color: var(--text-dim); font-size: 15px; max-width: 560px; margin: 0 auto 30px; }
+  .rules {
+    text-align: left; max-width: 560px; margin: 0 auto 34px;
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 22px 24px;
+  }
+  .rules h3 { font-size: 13px; letter-spacing: .2em; color: var(--gold); margin-bottom: 14px; }
+  .rules ol { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .rules li { display: flex; gap: 12px; font-size: 14px; color: var(--text-dim); }
+  .rules li b { color: var(--text); }
+  .rules .n {
+    flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(139,0,0,.35); color: var(--text); font-size: 12px;
+    display: flex; align-items: center; justify-content: center; margin-top: 4px;
+  }
 
   /* ---------- 章节 ---------- */
   .chapter {
     background: var(--card); border: 1px solid var(--line);
-    border-radius: var(--radius); padding: 30px 28px; margin-bottom: 24px;
-    animation: rise .5s ease both;
+    border-radius: var(--radius); padding: 32px 30px; margin-bottom: 24px;
+    animation: rise .45s ease both;
   }
   @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
   .ch-label { font-size: 12px; letter-spacing: .25em; color: var(--blood-bright); margin-bottom: 8px; }
   .ch-title { font-size: 22px; font-weight: 700; letter-spacing: .06em; margin-bottom: 4px; }
-  .ch-sub { font-size: 13px; color: var(--text-dim); margin-bottom: 22px; }
+  .ch-sub { font-size: 13px; color: var(--text-dim); margin-bottom: 24px; }
 
-  .narr p { margin-bottom: 14px; font-size: 15.5px; }
+  .narr p { margin-bottom: 16px; font-size: 15.5px; }
   .narr p:last-child { margin-bottom: 0; }
   .narr .say { color: var(--gold); }
+  .narr .beat { color: var(--text); font-style: italic; }
 
-  /* ---------- 证据 ---------- */
-  .clue-hint {
-    margin: 24px 0 12px; font-size: 12px; letter-spacing: .2em; color: var(--text-dim);
-    display: flex; align-items: center; gap: 8px;
+  /* ---------- 步骤指示 ---------- */
+  .steps { display: flex; gap: 10px; margin: 28px 0 8px; }
+  .step {
+    flex: 1; display: flex; align-items: center; gap: 9px;
+    padding: 10px 12px; border-radius: 8px; font-size: 13px;
+    border: 1px solid var(--line); color: var(--text-dim);
+    background: rgba(10,10,15,.4); transition: all .3s ease;
   }
-  .clue-hint::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .step .n {
+    flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%;
+    background: var(--line); color: var(--text-dim); font-size: 11px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step.active { border-color: var(--blood); color: var(--text); background: rgba(139,0,0,.12); }
+  .step.active .n { background: var(--blood); color: var(--text); }
+  .step.done { color: var(--good); border-color: rgba(87,217,163,.3); }
+  .step.done .n { background: rgba(87,217,163,.2); color: var(--good); }
 
-  .clues { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+  /* ---------- 判断区 ---------- */
+  .panel { margin-top: 22px; }
+  .panel-label {
+    font-size: 12px; letter-spacing: .2em; color: var(--text-dim);
+    display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
+  }
+  .panel-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+  .q { font-size: 16px; margin-bottom: 16px; }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt {
+    text-align: left; font-family: inherit; font-size: 14.5px; color: var(--text);
+    background: var(--card-hover); border: 1px solid var(--line); border-radius: 8px;
+    padding: 14px 17px; cursor: pointer; transition: all .2s ease; line-height: 1.75;
+  }
+  .opt:hover { border-color: var(--blood); transform: translateX(3px); }
+  .opt:disabled { cursor: default; transform: none; opacity: .55; }
+  .opt.chosen { opacity: 1; }
+  .opt.chosen.right { border-color: rgba(87,217,163,.5); background: rgba(87,217,163,.08); }
+  .opt.chosen.wrong { border-color: rgba(255,107,107,.5); background: rgba(255,107,107,.08); }
+
+  .feedback {
+    margin-top: 14px; padding: 14px 16px; border-radius: 8px;
+    font-size: 14px; border-left: 2px solid var(--line);
+    background: rgba(10,10,15,.5); animation: reveal .4s ease both;
+  }
+  .feedback.right { border-left-color: var(--good); }
+  .feedback.wrong { border-left-color: var(--bad); }
+  .feedback .delta { font-size: 12px; letter-spacing: .1em; margin-bottom: 5px; }
+  .feedback.right .delta { color: var(--good); }
+  .feedback.wrong .delta { color: var(--bad); }
+
+  /* ---------- 线索 ---------- */
+  .clues { display: flex; flex-wrap: wrap; gap: 10px; }
+  .clues.locked { opacity: .35; pointer-events: none; filter: grayscale(1); }
 
   .clue {
     display: inline-flex; align-items: center; gap: 7px;
@@ -135,18 +206,25 @@
   .clue:hover { border-color: var(--blood); transform: translateY(-2px); }
   .clue.found {
     cursor: default; border-style: solid;
-    border-color: rgba(201,162,39,.45); background: rgba(201,162,39,.08);
-    color: var(--text-dim);
+    border-color: rgba(201,162,39,.45); background: rgba(201,162,39,.08); color: var(--text-dim);
   }
   .clue.found:hover { transform: none; }
   .clue .tick { color: var(--good); }
 
-  .reveal { margin-top: 18px; display: flex; flex-direction: column; gap: 12px; }
+  .clue.first-hint {
+    border-color: var(--blood-bright); color: var(--text);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(196,30,30,.45); }
+    50% { box-shadow: 0 0 0 9px rgba(196,30,30,0); }
+  }
 
+  .reveal-list { margin-top: 18px; display: flex; flex-direction: column; gap: 12px; }
   .evidence {
     border-left: 2px solid var(--gold); background: rgba(201,162,39,.05);
     padding: 14px 16px; border-radius: 0 8px 8px 0;
-    animation: reveal .45s ease both;
+    animation: reveal .4s ease both;
   }
   @keyframes reveal { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
   .evidence .ev-label { font-size: 12px; color: var(--gold); letter-spacing: .1em; margin-bottom: 6px; }
@@ -154,7 +232,6 @@
 
   /* ---------- 继续 ---------- */
   .actions { margin-top: 26px; text-align: right; }
-
   .btn {
     font-family: inherit; font-size: 15px; font-weight: 700; letter-spacing: .12em;
     color: var(--text); background: linear-gradient(135deg, var(--blood), #5c0000);
@@ -163,19 +240,25 @@
   }
   .btn:hover { filter: brightness(1.15); transform: translateY(-1px); }
   .btn:active { transform: scale(.98); }
-  .btn:disabled { opacity: .3; cursor: not-allowed; transform: none; filter: none; }
-
+  .btn:disabled { opacity: .28; cursor: not-allowed; transform: none; filter: none; }
   .actions .hint { font-size: 12px; color: var(--text-dim); margin-right: 14px; }
 
   /* ---------- 终章 ---------- */
   .finale { text-align: center; }
-  .finale .seal {
-    font-size: 52px; margin-bottom: 14px;
-  }
+  .finale .seal { font-size: 52px; margin-bottom: 14px; }
   .finale h2 { font-size: 28px; letter-spacing: .2em; color: var(--blood-bright); margin-bottom: 10px; }
-  .finale .summary { color: var(--text-dim); font-size: 14px; margin-bottom: 26px; }
+  .finale .summary { color: var(--text-dim); font-size: 14px; margin-bottom: 24px; }
 
-  .verdict { text-align: left; display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+  .rating {
+    background: rgba(201,162,39,.07); border: 1px solid rgba(201,162,39,.3);
+    border-radius: var(--radius); padding: 20px 22px; margin-bottom: 26px;
+  }
+  .rating .score { font-size: 34px; color: var(--gold); font-weight: 700; letter-spacing: .05em; }
+  .rating .score span { font-size: 14px; color: var(--text-dim); font-weight: 400; }
+  .rating .title { font-size: 15px; margin-top: 4px; }
+  .rating .note { font-size: 13px; color: var(--text-dim); margin-top: 8px; }
+
+  .verdict { text-align: left; display: flex; flex-direction: column; gap: 12px; margin-bottom: 26px; }
   .verdict-item {
     display: flex; gap: 14px; align-items: flex-start;
     background: rgba(139,0,0,.08); border: 1px solid rgba(196,30,30,.2);
@@ -192,9 +275,20 @@
 
   .closing { font-size: 14px; color: var(--text-dim); font-style: italic; margin-bottom: 26px; }
 
+  /* ---------- 证据浮层 ---------- */
+  #toast {
+    position: fixed; left: 50%; bottom: 40px; transform: translate(-50%, 16px);
+    background: rgba(201,162,39,.95); color: #14141c;
+    font-size: 13px; font-weight: 700; letter-spacing: .08em;
+    padding: 9px 20px; border-radius: 999px;
+    opacity: 0; pointer-events: none; transition: all .3s ease; z-index: 100;
+  }
+  #toast.show { opacity: 1; transform: translate(-50%, 0); }
+
   @media (max-width: 640px) {
     .chapter { padding: 22px 18px; }
-    .progress { font-size: 12px; gap: 10px; }
+    .hud { font-size: 12px; gap: 10px; padding: 11px 13px; }
+    .steps { flex-direction: column; gap: 6px; }
     .actions { text-align: center; }
     .actions .hint { display: block; margin: 0 0 10px; }
   }
@@ -223,15 +317,18 @@
       <a class="back" href="https://daifresne.github.io/seven-deadly-sins/">← 返回七宗罪</a>
     </header>
 
-    <div class="progress">
-      <span>章节 <b id="chNow">1</b>/5</span>
+    <div class="hud" id="hud" hidden>
+      <span class="item">章节 <b id="chNow">1</b>/5</span>
       <div class="bar"><i id="barFill"></i></div>
-      <span>证据 <b id="evNow">0</b>/<span id="evTotal">0</span></span>
+      <span class="item">证据 <b id="evNow">0</b>/<span id="evTotal">0</span></span>
+      <span class="item clarity">清醒 <b id="clarityNow">50</b></span>
     </div>
 
     <main id="stage"></main>
   </div>
 </div>
+
+<div id="toast"></div>
 
 <script>
 (function () {
@@ -243,38 +340,27 @@
       title: "初入大学",
       sub: "两个部门，两套说辞",
       narr: [
-        "大一刚入学，我什么都想试试。科创社和 UIT 都在招人，我以为两个都是搞竞赛的——不分贵贱，还能互帮互助。",
-        "入科创社之前，有学长提醒我：杨状人品很差，不建议我去。可科创社的人反过来告诉我，UIT 里的人都差劲，说了不少脏话。杨状还亲口跟我讲：<span class=\"say\">「你跟我打比赛，我帮你申请专利。」</span>",
-        "两种说法完全对不上。我干脆两边都报了名，眼见为实。"
+        "大一开学那阵，校园里到处是招新的桌子。科创社和 UIT 的摊位隔得不远，我都填了表。在我当时的理解里，这两个地方都是搞竞赛的——既然都是搞竞赛，那就没有高下之分，说不定还能互相帮衬。",
+        "入科创社之前，有个学长把我拉到一边，说杨状这个人风评很差，劝我别去。可转头科创社的人又跟我说，UIT 那边的人都不行，话说得很难听，脏字一个接一个。两边各说各话，谁也不肯让谁。",
+        "杨状亲自跟我谈的时候，话是这么说的：<span class=\"say\">「你跟我打比赛，我帮你申请专利。」</span>",
+        "专利。这个词对一个大一新生来说，分量不轻。我当时确实动了心。可两边的话对不上，我也没傻到只听一边——索性两个都进，眼见为实。"
       ],
+      judgment: {
+        q: "回头看，杨状那句承诺最该警惕的地方是什么？",
+        options: [
+          { label: "他说话太热情了，热情得反常。", correct: false, feedback: "热情不违法，也说明不了什么。真正的问题不在语气，在这句话本身——它没有落点。" },
+          { label: "承诺里没有具体赛事、没有具体安排，也没有任何凭据。", correct: true, feedback: "对。一句「我帮你申请专利」，没说哪个比赛、什么项目、什么时候兑现。后来你等到的，是整理表格和拍推送照片。承诺越含糊，越不需要兑现。" },
+          { label: "学长都已经提醒过你了，你就不该去。", correct: false, feedback: "事后看当然该信学长。可当时两边各说各话，你选择眼见为实，这不是错。问题不在你去了，而在于你去了之后看到的那些东西。" }
+        ]
+      },
       clues: [
-        {
-          icon: "⚠️",
-          label: "学长的警告",
-          text: "入社前就有学长说杨状人品很差，不建议我去科创社。我没当回事。"
-        },
-        {
-          icon: "🎨",
-          label: "国潮艺术设计大赛",
-          text: "在科创社熬了几个星期，终于等来「能参赛」。比赛全称是 xx 国潮艺术设计大赛——我读的是计算机工程学院，科创社，为什么在打艺术与传媒学院的比赛？我问怎么做，学长只说：不用管，杨状会分配项目。"
-        },
-        {
-          icon: "📁",
-          label: "美术学院",
-          text: "后来才知道，杨状毕业于美术学院。他手里有很多剽窃来的、或者旧的艺术设计项目。所谓「打比赛」，就是找几个和本专业完全无关的艺术类水赛，看他心情分点项目，稍微改个 PPT 就拿去参赛。奖，基本都是高额买回来的。"
-        },
-        {
-          icon: "📊",
-          label: "科研部的日常",
-          text: "加入后我被分到科研部，当时还挺高兴，以为能打很多比赛、学很多技术。结果从第一天起，没让我打过比赛、没教过技术，一天到晚做 Word、Excel，从竞赛平台整理比赛信息，拍公众号推送照片。"
-        },
-        {
-          icon: "🚪",
-          label: "退出与约谈",
-          text: "我跟科创社的学长申请退出。他阻挠，说 UIT 是帮不了我学习的社团，让我自己考虑。可两边我都待了这么久，谁真谁假我能不知道吗。一直坚持，路一诺学长终于说了一句：「好吧。」第二天一早，学长却说杨状找我。中午我去了办公室，他上来就是一阵数落：<span class=\"say\">「我让你加入就加，干点活多好啊，锻炼你的竞赛能力。做 PPT、Excel、Word 也都是锻炼你的办公软件能力，方便以后参赛。」</span>我还没张口，又被打断：<span class=\"say\">「你将来想做建模，就把学校的楼做一下，然后做成文创可以售卖。」</span>我几乎一句话没说上。回去想了想，还是决定退出。"
-        }
+        { icon: "⚠️", label: "学长的警告", text: "入社前就有学长提醒我：杨状人品很差，不建议我去他的科创社。我当时没太当回事——毕竟我还不认识他。" },
+        { icon: "🎨", label: "国潮艺术设计大赛", text: "在科创社熬了几个星期，终于等到一句「能参赛了」。比赛全称是「xx 国潮艺术设计大赛」。我盯着那行字看了很久：我读的是计算机工程学院，社团叫科创社，为什么报的是艺术与传媒学院的比赛？我去问怎么做，学长摆摆手：不用管，杨状会分配项目。" },
+        { icon: "📁", label: "美术学院", text: "后来我才知道，杨状毕业于美术学院。他手里攥着一批剽窃来的、或者干脆是很多年前的平面设计作品。所谓「打比赛」，就是从一堆和本专业毫无关系的艺术类水赛里挑几个，看他当天心情把项目分下去；学生把 PPT 改一改，就交上去。奖，大多是花高价买回来的。" },
+        { icon: "📊", label: "科研部的日常", text: "加入科创社后，我被分到科研部。那天我还挺高兴，觉得自己终于能打比赛、能学技术了。结果从第一天起，没有人带我做过一个项目，没有人教过我一行代码，更没有比赛。我一天到晚在做 Word、Excel，从各个竞赛平台扒比赛信息整理成表；社团有活动，我去拍照，回来写公众号推送。" },
+        { icon: "🚪", label: "退出与约谈", text: "我向科创社的学长提出退出。他先是劝，说 UIT 是帮不了我学习的社团，让我想清楚谁才真的能帮到我。可两个地方我都待了这么久，谁真谁假，我心里有数。我坚持要退，来回几次，路一诺学长最后只说了一句：「好吧。」我以为事情到这儿就结束了。第二天一早，学长却来找我，说杨状找我。中午下课，我去了办公室。他人不在，我等了一会儿，他才推门进来。没有寒暄，开口就是数落：<span class=\"say\">「你为什么退出科创社？我看你在这里待得不是挺好的吗。」</span>我说，科创社安排的工作和比赛，都不太符合我对这个社团的想象。他脸色沉下来，语速变快：<span class=\"say\">「我让你加入就加，干点活多好啊，锻炼你的竞赛能力。做 PPT、Excel、Word，也都是锻炼你的办公软件能力，方便以后参赛。」</span>我没想通做表格怎么就能锻炼竞赛能力，可话还没出口，又被他打断：<span class=\"say\">「你看看，在科创，各种资源都有，又用不着你费什么劲。你将来想做建模，就把学校的楼做一下，然后做成文创可以售卖。」</span>最后他让我回去再好好考虑。整个过程我几乎一句话没说上。回去的路上我在想：一个计算机工程学院的学生，为什么要靠做办公软件和卖文创来证明自己？科创社确实有比赛，可那些都是艺术设计类的水赛，奖是买的，项目是旧的。想清楚这一点，我还是决定退出。" }
       ],
-      outro: "另一边，UIT 的学长们很友好，懂各种技术方向，关心我，没让我干过任何无意义的杂活——只是带我学技能、帮我解惑、带我打比赛。"
+      outro: "同一个学期，UIT 那边是另一番样子。学长们各有所长，有人做硬件，有人写代码，有人跑算法；没人使唤我，也没人让我干过一件没意义的杂活。他们只是带我学东西，替我答疑，然后带着我上赛场。"
     },
 
     {
@@ -283,26 +369,24 @@
       sub: "导员、热风枪，和一条我不知道的规定",
       narr: [
         "杨状不巧也是我的导员。",
-        "我从小玩硬件，来学校带了自己的设备：电烙铁、热风枪。宿舍不让用锅、吹风机，我知道，所以这些都没带。"
+        "我从小玩硬件。别人小时候拆玩具，我拆的是家里坏掉的收音机，拆完装不回去，挨一顿骂，下次还拆。上大学前，我把自己的家伙什装进箱子：电烙铁、热风枪，还有一堆零零碎碎的元件、排线、万用表。",
+        "宿舍不让用锅，不让用吹风机，这些规矩我懂，所以这两样我一样都没带。我带的，是吃饭的手艺。",
+        "然后他查寝了。"
       ],
+      judgment: {
+        q: "热风枪被没收，这件事的关键在哪？",
+        options: [
+          { label: "宿舍本来就不该用大功率电器，收得合理。", correct: false, feedback: "学生手册里确实有这么一条，但它管的是生活电器。竞赛设备是另一套规定——他没问，也没查。" },
+          { label: "学校允许竞赛设备进宿舍，他没核实用途就收了。", correct: true, feedback: "对。电烙铁、热风枪属于允许的竞赛设备。他既没问你带这些做什么，也没告诉你规定是什么，先收了再说。" },
+          { label: "查寝是导员的本职工作，谈不上对错。", correct: false, feedback: "查寝本身没错。错在「不核实、不问用途、不给解释」——尤其是，做这件事的人，本该是最熟悉规定的那个人。" }
+        ]
+      },
       clues: [
-        {
-          icon: "🧰",
-          label: "查寝没收",
-          text: "一次查寝，他没收了我不少工具——热风枪、电烙铁。"
-        },
-        {
-          icon: "📖",
-          label: "学校的规定",
-          text: "事后学长告诉我：学校完全允许宿舍使用竞赛设备，包括电烙铁、热风枪。"
-        },
-        {
-          icon: "⚖️",
-          label: "没处说理",
-          text: "知道了也没用。东西已经在他手里了。我只能觉得冤。"
-        }
+        { icon: "🧰", label: "查寝没收", text: "一次查寝，他翻到了我的工具箱，把热风枪和电烙铁收走了。没有问这是干什么用的，也没有说依据哪一条规定。" },
+        { icon: "📖", label: "学校的规定", text: "事后学长告诉我：学校是允许宿舍存放和使用竞赛设备的，电烙铁、热风枪都在允许范围内。这是写在学校规定里的。" },
+        { icon: "⚖️", label: "没处说理", text: "知道得晚了一步，也就没有用了。东西已经在他手里。我去要过，没要回来。这件事到最后，我连一句解释都没得到。" }
       ],
-      outro: "他没收的时候，没有问过这些是用来做什么的。"
+      outro: "他收走的时候，没有问过这些工具是用来做什么的。也许他根本不需要知道。"
     },
 
     {
@@ -311,26 +395,24 @@
       sub: "他要的不是我，是我的能力",
       narr: [
         "退出科创社之后，我还在学生会记者团。",
-        "一次出任务拍党员照，正好遇上给杨状拍照。"
+        "记者团的活儿不重：出任务、拍照、修图、交稿。我不讨厌这种活儿——至少在记者团，我做的事和它的名字是对得上的。",
+        "直到那次拍党员照，我在镜头后面看见了杨状。",
+        "他还是那副样子，站着，等人来拍。我按下快门，收工，准备走。"
       ],
+      judgment: {
+        q: "他让你过几天去拍科创社活动，这说明什么？",
+        options: [
+          { label: "他还把你当成科创社的人。", correct: false, feedback: "他确实以为你还在——但那不是重点。就算知道你不在了，他照样开了这个口。" },
+          { label: "他要的是你的能力，不是你在哪个社团。", correct: true, feedback: "对。用得上的时候叫来干活，用不上就丢在一边。你拒绝之后他在背后诋毁你，恰恰说明他要的从来不是你这个人。" },
+          { label: "他想借这次拍照缓和关系。", correct: false, feedback: "缓和关系，不会在你说明有课、明确拒绝之后，变成四处散播的坏话。" }
+        ]
+      },
       clues: [
-        {
-          icon: "📷",
-          label: "拍完照之后",
-          text: "我拍完，他把我叫出去，让我过几天再给科创社的活动拍照。"
-        },
-        {
-          icon: "🕰️",
-          label: "他以为我还在",
-          text: "他还以为我在科创社待着。可我已经快一年没去了。"
-        },
-        {
-          icon: "📅",
-          label: "那天的课",
-          text: "我想明白了：他要的不是我这个人，是我的能力，是他的棋子。用得上的时候就叫来做事，完全不关心我怎么样。知道我不在科创社了，他还是让我去。那天我有课，明确拒绝了，不想耽误课程，就没去。"
-        }
+        { icon: "📷", label: "拍完照之后", text: "我给杨状拍完照，他把我叫到一边，说过几天科创社有个活动，让我再去拍一次。" },
+        { icon: "🕰️", label: "他以为我还在", text: "他说这话的时候，语气自然得像是我们之间什么也没发生过。他还以为我在科创社——可我已经快一年没踏进那个门了。" },
+        { icon: "📅", label: "那天的课", text: "我忽然想通了：他要的从来不是我这个人，是我的能力。用得上的时候叫过来干活，用完了就丢在一边，连我在不在科创社都不重要。那天我下午有课，我跟他说得很清楚：有课，去不了，不想耽误。后来我才知道，就因为这个「不」，他在背后到处说我的坏话，一句一句地诋毁。" }
       ],
-      outro: "事后，他到处说我的坏话，诋毁我。"
+      outro: "一次拒绝，换来的不是理解，是一场背后发起的议论。"
     },
 
     {
@@ -338,27 +420,25 @@
       title: "留校",
       sub: "一个我至今想不通的道歉",
       narr: [
-        "2026 年暑假，我想打电赛。电赛在假期，需要申请留校。",
-        "于是我去找杨状。"
+        "2026 年暑假，我想打电赛。",
+        "电赛排在假期里，要参赛就得申请留校。学校的流程不算复杂：学生申请，导员签字，走审批。我的导员是杨状。",
+        "我去找他。他给了我一句话：你申请太晚了。",
+        "就这一句。没有说晚几天，没有说晚在哪个环节，也没有说还来不来得及补救。"
       ],
+      judgment: {
+        q: "「申请太晚」这个理由，问题在哪？",
+        options: [
+          { label: "申请确实晚了，他按规矩办事，没毛病。", correct: false, feedback: "如果只是晚，答复应该是「补材料」或「下次注意」。可指导老师来了、分院书记来了，他才松口——卡住的不是时限，是态度。" },
+          { label: "申请晚是一回事，卡着不办是另一回事。", correct: true, feedback: "对。同样是流程问题，正常的处理是补材料、走特批。他的处理是拖，拖到指导老师和分院书记都出面，最后还要一个没有理由的道歉。" },
+          { label: "书记都出面了，说明你这边也有问题。", correct: false, feedback: "书记出面，恰恰是因为正常渠道走不通。一个学生为了参赛申请留校，要惊动分院书记才能推进——这本身就说明问题出在哪。" }
+        ]
+      },
       clues: [
-        {
-          icon: "⏳",
-          label: "你申请太晚了",
-          text: "我向他申请假期留校。他一味以「你申请太晚了」拒绝。"
-        },
-        {
-          icon: "📞",
-          label: "指导老师与分院书记",
-          text: "我的电赛指导老师知道后，亲自联系他，他还是拒绝。指导老师没办法，联系了分院书记。书记和他聊过，他才稍微松口——但要我先道歉。"
-        },
-        {
-          icon: "❓",
-          label: "我做错哪了",
-          text: "我怎么都想不通我做错了什么，要向他道歉。可竞赛在即，我只能道歉。他才不情不愿地抱怨了几句，然后不紧不慢地花了好几天，把事办完。"
-        }
+        { icon: "⏳", label: "你申请太晚了", text: "他没有说晚几天、晚在哪个环节、还来不来得及补救。就一句「太晚了」，把门关上了。" },
+        { icon: "📞", label: "指导老师与分院书记", text: "我的电赛指导老师知道这件事后，亲自给他打了电话。他还是拒绝。老师没办法，把情况反映给了分院书记。书记找他谈过之后，他才松口——但松口之前，他提了一个条件：要我先道歉。" },
+        { icon: "❓", label: "我做错哪了", text: "我在回宿舍的路上想了很久：我做错了什么？申请交晚了，是事实，可晚交申请，不至于要道歉。我想不出来。可竞赛在即，队里在等，我只能去道这个歉。他听完，不情不愿地抱怨了几句，然后不紧不慢地、拖了好几天，才把手续办完。" }
       ],
-      outro: "申请是晚了，但「晚」和「不办」之间，本来还有很多余地。"
+      outro: "申请是晚了。可「晚」和「不办」之间，本来还隔着很多种做法。"
     },
 
     {
@@ -367,97 +447,204 @@
       sub: "他被说成一个十恶不赦的部门",
       narr: [
         "在 UIT 学长们的指导和代理下，我参加了很多含金量不低的比赛，也拿了奖。",
-        "大二，UIT 换届，我意外当上了副部长。该迎新了。"
+        "那些奖不是买来的。是一个电路一个电路调出来的，一段代码一段代码跑出来的，是实验室熄灯前最后一遍参数。",
+        "大二，UIT 换届。我意外当上了副部长。",
+        "换届之后第一件大事，是纳新。"
       ],
+      judgment: {
+        q: "UIT 面临解散，根子在哪？",
+        options: [
+          { label: "UIT 自己确实有做得不好的地方。", correct: false, feedback: "UIT 的日常是带新生学技术、请假批条、出去打比赛。被指控的那些事，事后看都不存在。" },
+          { label: "几句不实之词，就能决定一个部门的生死。", correct: true, feedback: "对。没有人去核对那些话是不是真的，也没有人问过 UIT 到底在做什么。一个部门的存续，抵不过几句背后的评价。" },
+          { label: "院长和书记只是不了解情况。", correct: false, feedback: "不了解却不核实，本身就是问题。更何况，说这些话的人，是知道实情的。" }
+        ]
+      },
       clues: [
-        {
-          icon: "📝",
-          label: "纳新",
-          text: "笔试、面试，忙完一轮，招进来很多新生。"
-        },
-        {
-          icon: "🌙",
-          label: "晚自习假条",
-          text: "新生进 UIT 后，需要向学校请假、批晚自习假条来培训技术。学长们去请了很多次，多次被拒。有一次我跟学长们一起给新生请假，学长被骂哭了——很难想象被说了什么。"
-        },
-        {
-          icon: "🗣️",
-          label: "不存在的话",
-          text: "后来我了解到，杨状在背后跟院方说了很多 UIT 的、根本不存在的话。UIT 本身是个很好的竞赛部门，却被他、被院长和书记说成一个十恶不赦的部门。"
-        }
+        { icon: "📝", label: "纳新", text: "笔试、面试，一轮一轮筛下来，招进来不少新生。那天晚上收完最后一份报名表，我还挺高兴——这个部门总算有人接了。" },
+        { icon: "🌙", label: "晚自习假条", text: "新生进来之后，要培训技术，就得向学校请晚自习的假，批假条。学长们一趟一趟地跑，一趟一趟地被拒。有一次我跟着一起去，亲眼看着一个学长被骂哭了。我不知道对方说了什么，能让人站在那里掉眼泪。" },
+        { icon: "🗣️", label: "不存在的话", text: "后来我才慢慢了解到，杨状在背后跟院方说了很多 UIT 的话——那些话，很多根本不存在。UIT 是什么样子，我最清楚：一群人在实验室里焊板子、调参数、跑代码，带着新生一点点学。可在院长和书记那里，它被说成了一个十恶不赦的地方。一个部门的名声，就这么被几句话定了性。UIT 因此面临解散。" }
       ],
-      outro: "UIT 因此面临解散。"
+      outro: "招进来的新生还没开始学，部门先没了。"
     }
   ];
 
   const TOTAL_CLUES = CHAPTERS.reduce((n, c) => n + c.clues.length, 0);
 
+  const RATINGS = [
+    { min: 100, title: "全程清醒", note: "五个判断全中。回头看这段日子，你没有一处还在替对方找理由。" },
+    { min: 80, title: "看得清", note: "大部分事情你当时就想明白了。少数几处，是后来才慢慢拼起来的。" },
+    { min: 60, title: "基本清醒", note: "你知道哪里不对，但有些地方，还是先信了说法，才看到证据。" },
+    { min: 40, title: "半信半疑", note: "有些事你到现在也没完全想通。这不怪你——那些说法，本来就设计得让人想不通。" },
+    { min: 0, title: "被牵着走", note: "复盘时你选了太多「也许他有他的道理」。可证据摆在这里：那些道理，一次都没落到你身上。" }
+  ];
+
   const stage = document.getElementById("stage");
+  const hud = document.getElementById("hud");
   const chNow = document.getElementById("chNow");
   const evNow = document.getElementById("evNow");
   const evTotal = document.getElementById("evTotal");
+  const clarityNow = document.getElementById("clarityNow");
   const barFill = document.getElementById("barFill");
+  const toast = document.getElementById("toast");
 
+  let started = false;
   let chapterIdx = 0;
-  let found = new Set();     // "章节:证据"
+  let found = new Set();
   let foundCount = 0;
+  let choices = {};
+  let clarity = 50;
 
   evTotal.textContent = TOTAL_CLUES;
-
-  function updateProgress() {
-    chNow.textContent = Math.min(chapterIdx + 1, CHAPTERS.length);
-    evNow.textContent = foundCount;
-    barFill.style.width = (foundCount / TOTAL_CLUES * 100) + "%";
-  }
 
   function escapeHtml(s) {
     return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
-  // 章节正文里用了 <span class="say">，所以正文按 HTML 插入；
-  // 证据文字是纯文本，走 escapeHtml
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => toast.classList.remove("show"), 1600);
+  }
+
+  function updateHud() {
+    chNow.textContent = Math.min(chapterIdx + 1, CHAPTERS.length);
+    evNow.textContent = foundCount;
+    clarityNow.textContent = clarity;
+    barFill.style.width = (foundCount / TOTAL_CLUES * 100) + "%";
+  }
+
+  function scrollTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  /* ---------- 开场 ---------- */
+  function renderIntro() {
+    hud.hidden = true;
+    stage.innerHTML = `
+      <section class="intro">
+        <div class="glyph">🗂️</div>
+        <h2>五段回忆 · 十七件物证</h2>
+        <p class="lede">
+          小 DFL 大一到大二，与导员杨状有关的五段经历。
+          你是当事人，也是此刻翻看这些旧事的人。
+        </p>
+        <div class="rules">
+          <h3>怎么玩</h3>
+          <ol>
+            <li><span class="n">1</span><span><b>先做判断。</b>每章开头有一个复盘问题，选你的答案。选对了「清醒值」上升，选错了会有人告诉你错在哪。</span></li>
+            <li><span class="n">2</span><span><b>再找线索。</b>判断做完，本章的线索解锁。点开它们，收集当天的细节。线索会记进档案。</span></li>
+            <li><span class="n">3</span><span><b>继续。</b>线索集齐才能进入下一章。五章走完，宣读判决。</span></li>
+          </ol>
+        </div>
+        <button class="btn" id="startBtn">开始勘察</button>
+      </section>`;
+    document.getElementById("startBtn").addEventListener("click", () => {
+      started = true;
+      hud.hidden = false;
+      updateHud();
+      renderChapter();
+    });
+  }
+
+  /* ---------- 章节 ---------- */
   function renderChapter() {
     const ch = CHAPTERS[chapterIdx];
     const key = (i) => chapterIdx + ":" + i;
+    const chose = choices[chapterIdx];
+    const judged = chose !== undefined;
     const allFound = ch.clues.every((_, i) => found.has(key(i)));
+    const clueCount = ch.clues.filter((_, i) => found.has(key(i))).length;
+    const canNext = judged && allFound;
+    const showFirstHint = chapterIdx === 0 && foundCount === 0;
 
     stage.innerHTML = `
       <article class="chapter">
         <div class="ch-label">${ch.label} · CHAPTER ${chapterIdx + 1}</div>
         <h2 class="ch-title">${ch.title}</h2>
         <p class="ch-sub">${ch.sub}</p>
+
         <div class="narr">${ch.narr.map((p) => `<p>${p}</p>`).join("")}</div>
 
-        <div class="clue-hint">可调查线索 · ${ch.clues.filter((_, i) => found.has(key(i))).length}/${ch.clues.length}</div>
-        <div class="clues">
-          ${ch.clues.map((c, i) => `
-            <button class="clue${found.has(key(i)) ? " found" : ""}" data-ci="${i}" ${found.has(key(i)) ? "disabled" : ""}>
-              <span>${found.has(key(i)) ? '<span class="tick">✓</span>' : c.icon}</span>
-              <span>${escapeHtml(c.label)}</span>
-            </button>`).join("")}
+        <div class="steps">
+          <div class="step ${judged ? "done" : "active"}">
+            <span class="n">${judged ? "✓" : "1"}</span>做判断
+          </div>
+          <div class="step ${allFound ? "done" : judged ? "active" : ""}">
+            <span class="n">${allFound ? "✓" : "2"}</span>找线索
+          </div>
+          <div class="step ${canNext ? "active" : ""}">
+            <span class="n">3</span>继续
+          </div>
         </div>
 
-        <div class="reveal" id="reveal">
-          ${ch.clues.map((c, i) => found.has(key(i)) ? `
-            <div class="evidence">
-              <div class="ev-label">${c.icon} ${escapeHtml(c.label)}</div>
-              <p>${c.text}</p>
-            </div>` : "").join("")}
+        <div class="panel">
+          <div class="panel-label">判断 · 回头看</div>
+          <p class="q">${ch.judgment.q}</p>
+          <div class="options">
+            ${ch.judgment.options.map((o, i) => {
+              let cls = "opt";
+              let dis = judged ? "disabled" : "";
+              if (judged) {
+                if (i === chose) cls += o.correct ? " chosen right" : " chosen wrong";
+                if (o.correct && i !== chose) cls += " chosen right";
+              }
+              return `<button class="${cls}" data-oi="${i}" ${dis}>${o.label}</button>`;
+            }).join("")}
+          </div>
+          ${judged ? `
+            <div class="feedback ${ch.judgment.options[chose].correct ? "right" : "wrong"}">
+              <div class="delta">${ch.judgment.options[chose].correct ? "清醒 +10" : "清醒 −10"}</div>
+              ${ch.judgment.options[chose].feedback}
+            </div>` : ``}
+        </div>
+
+        <div class="panel">
+          <div class="panel-label">线索 · ${clueCount}/${ch.clues.length}</div>
+          <div class="clues ${judged ? "" : "locked"}">
+            ${ch.clues.map((c, i) => {
+              const isFound = found.has(key(i));
+              const hint = (showFirstHint && i === 0 && !isFound) ? " first-hint" : "";
+              return `<button class="clue${isFound ? " found" : ""}${hint}" data-ci="${i}" ${isFound ? "disabled" : ""}>
+                <span>${isFound ? '<span class="tick">✓</span>' : c.icon}</span>
+                <span>${escapeHtml(c.label)}</span>
+              </button>`;
+            }).join("")}
+          </div>
+          <div class="reveal-list">
+            ${ch.clues.map((c, i) => found.has(key(i)) ? `
+              <div class="evidence">
+                <div class="ev-label">${c.icon} ${escapeHtml(c.label)}</div>
+                <p>${c.text}</p>
+              </div>` : "").join("")}
+          </div>
         </div>
 
         <div class="actions">
-          ${allFound
+          ${canNext
             ? `<button class="btn" id="nextBtn">${chapterIdx === CHAPTERS.length - 1 ? "宣读判决" : "继续"}</button>`
-            : `<span class="hint">把这一章的证据找齐才能继续</span><button class="btn" disabled>继续</button>`}
+            : `<span class="hint">${!judged ? "先完成上面的判断" : `还差 ${ch.clues.length - clueCount} 条线索`}</span><button class="btn" disabled>继续</button>`}
         </div>
       </article>`;
 
+    stage.querySelectorAll(".opt:not([disabled])").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const oi = +btn.dataset.oi;
+        choices[chapterIdx] = oi;
+        clarity = Math.max(0, Math.min(100, clarity + (ch.judgment.options[oi].correct ? 10 : -10)));
+        if (ch.judgment.options[oi].correct) showToast("判断正确 · 清醒 +10");
+        updateHud();
+        renderChapter();
+      });
+    });
+
     stage.querySelectorAll(".clue:not(.found)").forEach((btn) => {
       btn.addEventListener("click", () => {
-        const i = +btn.dataset.ci;
-        found.add(key(i));
+        const ci = +btn.dataset.ci;
+        found.add(key(ci));
         foundCount++;
-        updateProgress();
+        showToast(`证据 +1 · ${foundCount}/${TOTAL_CLUES}`);
+        updateHud();
         renderChapter();
       });
     });
@@ -467,15 +654,16 @@
       next.addEventListener("click", () => {
         if (chapterIdx === CHAPTERS.length - 1) { renderFinale(); return; }
         chapterIdx++;
-        updateProgress();
+        updateHud();
         renderChapter();
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        scrollTop();
       });
     }
 
-    updateProgress();
+    updateHud();
   }
 
+  /* ---------- 终章 ---------- */
   const VERDICT = [
     { title: "欺骗", text: "以「帮你申请专利」「带你打比赛」为名招人，实际安排的是整理表格、拍推送照片；所谓参赛，是拿他手里的旧项目改个 PPT。" },
     { title: "滥用职权", text: "以导员身份没收学校允许的竞赛设备；以「申请太晚」为由卡住暑期留校，直到指导老师、分院书记介入，仍要求一个没有理由的道歉。" },
@@ -484,12 +672,19 @@
   ];
 
   function renderFinale() {
-    barFill.style.width = "100%";
+    const rating = RATINGS.find((r) => clarity >= r.min) || RATINGS[RATINGS.length - 1];
+
     stage.innerHTML = `
       <article class="chapter finale">
         <div class="seal">⚖️</div>
         <h2>判决</h2>
         <p class="summary">五章调查完毕 · 共 ${TOTAL_CLUES} 条证据</p>
+
+        <div class="rating">
+          <div class="score">${clarity}<span> / 100</span></div>
+          <div class="title">${rating.title}</div>
+          <div class="note">${rating.note}</div>
+        </div>
 
         <div class="verdict">
           ${VERDICT.map((v, i) => `
@@ -507,18 +702,23 @@
         <button class="btn" id="againBtn">重新勘察</button>
       </article>`;
 
+    barFill.style.width = "100%";
+
     document.getElementById("againBtn").addEventListener("click", () => {
       chapterIdx = 0;
       found = new Set();
       foundCount = 0;
+      choices = {};
+      clarity = 50;
+      updateHud();
       renderChapter();
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      scrollTop();
     });
 
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollTop();
   }
 
-  renderChapter();
+  renderIntro();
 })();
 </script>
 
