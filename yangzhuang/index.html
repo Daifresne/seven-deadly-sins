@@ -297,6 +297,25 @@
 
   .closing { font-size: 14px; color: var(--text-dim); font-style: italic; margin-bottom: 26px; }
 
+  /* ---------- 尾声 ---------- */
+  .epilogue {
+    text-align: left; margin: 34px 0 30px; padding-top: 30px;
+    border-top: 1px solid var(--line);
+  }
+  .epilogue .ep-label {
+    text-align: center; font-size: 12px; letter-spacing: .3em;
+    color: var(--gold); margin-bottom: 22px;
+  }
+  .epilogue p {
+    font-size: 14.5px; color: var(--text-dim); line-height: 2.05;
+    margin-bottom: 15px;
+  }
+  .epilogue p.turn { color: var(--text); }
+  .epilogue p.last {
+    margin-top: 24px; text-align: center;
+    font-size: 17px; color: var(--gold); letter-spacing: .14em; line-height: 1.9;
+  }
+
   /* ---------- 浮层 ---------- */
   #toast {
     position: fixed; left: 50%; bottom: 40px; transform: translate(-50%, 16px);
@@ -768,6 +787,30 @@
         </div>
 
         <p class="closing">「我不是没给过机会。我是给了太久。」</p>
+
+        <section class="epilogue">
+          <div class="ep-label">尾声 · UIT</div>
+
+          <p class="turn">UIT 最后是被解散的。</p>
+
+          <p>不是输给了比赛，不是没人了，也不是技术不行。是招进来的新生还没学会点灯，部门的灯就先被人掐了。</p>
+
+          <p class="turn">一开始是话。后来不只是话。</p>
+
+          <p>没有仪式，也没有告别。牌子摘了，屋子空了，钥匙交回去。有人在群里问了一句「以后还约吗」，没有人接。</p>
+
+          <p>我想起那些晚上：示波器的绿线在屏幕上抖，电烙铁升起一点白烟，有人蹲在地上找一颗掉进缝里的螺丝，有人在白板上画完最后一版框图，把笔一搁，说，先这样吧。整栋楼只剩那一间还亮着。</p>
+
+          <p>后来那些东西都散了。板子收进箱子，元件分给学弟，白板擦得很干净，像从来没有人写过。</p>
+
+          <p class="turn">可是有些东西撤不掉。</p>
+
+          <p>一个部门可以被解散，一间实验室可以被清空，一块牌子可以被摘下来。但被教会的东西还在——怎么看数据手册，怎么把一个模棱两可的问题拆成能动手的几块，怎么在所有人都说「算了吧」的时候，先焊上第一颗电阻。这些东西长在人身上，不长在牌子上。</p>
+
+          <p>后来我们还是见面。在食堂，在楼下，在别的城市。有人还在焊板子，有人不焊了，有人去了很远的地方。聊起那段日子，大家说得最多的一句是：那时候真好啊。</p>
+
+          <p class="last">灯灭了，电流还在。</p>
+        </section>
 
         <button class="btn" id="againBtn">重新勘察</button>
       </article>`;
